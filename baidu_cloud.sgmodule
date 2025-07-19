@@ -1,0 +1,8 @@
+#!name=baidu_cloud
+#!desc=baidu_cloud
+#!category=moyanxinxu
+[Script]
+百度网盘解锁 SVIP倍速播放、高画质 = type=http-response, pattern=^https?:\/\/pan.baidu.com.+(rest\/.+\/membership\/user|api\/user\/getinfo|act\/v2\/welfare\/list|api\/taskscore\/tasklist)\?, script-path=https://raw.githubusercontent.com/BOBOLAOSHIV587/Rules/main/JS/BaiDuYun/JS/BaiDuYun.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% pan.baidu.com
