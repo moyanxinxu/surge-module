@@ -1,0 +1,10 @@
+#!name=notion_ai
+#!desc=notion_ai
+#!category=moyanxinxu
+
+[MITM]
+hostname = %APPEND% www.notion.so
+
+[Body Rewrite]
+http-response https://www.notion.so/api/v3/getAIUsageEligibility 'false' 'true'
+http-response https://www.notion.so/api/v3/runAssistantV2 '^\{\"type\":\"error\".*?\}\n?' ''
