@@ -1,26 +1,19 @@
-// Surge Script: 修改 Notion getTasks 接口中的 exportURL.downloadName
-let body = $response.body;
+// rename-download.js
+// 将 URL 中的 downloadName 参数替换成中文名
 
-try {
-  let obj = JSON.parse(body);
+let url = new URL($request.url);
 
-  if (obj.results && Array.isArray(obj.results)) {
-    obj.results.forEach(item => {
-      if (item.status && typeof item.status.exportURL === "string") {
-        let url = item.status.exportURL;
-        let match = url.match(/\/([^\/?]+\.pdf)/); // 匹配最后的文件名（保持编码）
-        if (match) {
-          let fileNameEncoded = match[1];
-          url = url.replace(/(downloadName=)[^&]+/, `$1${fileNameEncoded}`);
-          item.status.exportURL = url;
-        }
-      }
-    });
-  }
+// 原始值（可能是 URL 编码）
+let originalName = url.searchParams.get("downloadName");
 
-  body = JSON.stringify(obj);
-} catch (e) {
-  console.log("解析 Notion JSON 失败:", e);
-}
+// URL 解码
+let decodedName = decodeURIComponent(originalName);
 
-$done({ body });
+// 这里直接替换成中文文件名（改成你需要的）
+let newName = "我的文件.pdf";
+
+// 重新编码后写回
+url.searchParams.set("downloadName", encodeURIComponent(newName));
+
+// 输出修改后的请求
+$done({ url: url.toString() });
